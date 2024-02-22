@@ -13,7 +13,7 @@ public class ReviewService {
     private ReviewRepository repo;
 
     public List<Review> listAll(String ISBNid){
-        return repo.findAllByISBNid(ISBNid);
+        return repo.findAllByBook_ISBNid(ISBNid);
     }
 
     public Review addReview(Review review){
