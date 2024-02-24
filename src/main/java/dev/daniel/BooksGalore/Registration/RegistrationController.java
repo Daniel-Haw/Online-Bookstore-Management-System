@@ -1,5 +1,6 @@
 package dev.daniel.BooksGalore.Registration;
 
+import dev.daniel.BooksGalore.Model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,7 @@ public class RegistrationController {
     private RegistrationService serv;
 
     @PostMapping
-    public String register(@RequestBody RegistrationRequest request){
+    public User register(@RequestBody RegistrationRequest request){
         return serv.register(request);
     }
 }
