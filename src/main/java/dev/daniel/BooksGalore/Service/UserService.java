@@ -2,6 +2,8 @@ package dev.daniel.BooksGalore.Service;
 
 import dev.daniel.BooksGalore.Model.User;
 import dev.daniel.BooksGalore.Repository.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,11 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    private BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private UserRepository repo;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserRepository repo;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

@@ -31,7 +31,6 @@ public class User implements UserDetails {
     private List<Book> book;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private boolean enabled;
 
 
     @Override
@@ -62,6 +61,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 }

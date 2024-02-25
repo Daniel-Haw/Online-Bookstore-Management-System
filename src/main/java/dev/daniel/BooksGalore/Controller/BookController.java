@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("api/v1/books/")
 public class BookController {
     @Autowired
     private BookService serv;
 
-    @GetMapping("/api/v1/books")
+    @GetMapping("all")
     public ResponseEntity<List<Book>> getAllBooks(){
         try{
             List<Book> books = serv.listAll();
@@ -27,7 +28,7 @@ public class BookController {
         return new ResponseEntity<>(new ArrayList<>(),HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/api/v1/books/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Book> getSingleBook(@PathVariable String id){
         try{
             Book book = serv.getOne(id);
@@ -38,7 +39,7 @@ public class BookController {
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/api/v1/books/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable String id){
         try{
             serv.deleteBook(id);
@@ -49,7 +50,7 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/api/v1/books/add")
+    @PostMapping("add")
     public ResponseEntity<Book> addBook(@RequestBody Book book){
         try{
             Book addedBook = serv.addBook(book);
@@ -60,7 +61,7 @@ public class BookController {
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/api/v1/books/edit")
+    @PutMapping("edit")
     public ResponseEntity<Book> editBook(@RequestBody Book book){
         try{
             Book updatedBook = serv.editBook(book);

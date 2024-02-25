@@ -24,32 +24,29 @@ import java.net.http.HttpRequest;
 public class securityConfig{
 
     private final UserService userService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf()
-                .disable()
+                    .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/registration")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .requestMatchers("/api/v1/registration")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
+                .formLogin();
         return http.build();
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder());
+        provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(userService);
         return provider;
     }
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+
 }
