@@ -1,5 +1,7 @@
 package dev.daniel.BooksGalore.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,7 @@ public class Book {
     private String genre;
     private String description;
     private double price;
+    @JsonBackReference
     @OneToMany(mappedBy = "book", cascade = CascadeType.MERGE)
     private List<Review> review;
     @ManyToMany

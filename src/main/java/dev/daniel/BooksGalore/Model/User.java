@@ -1,6 +1,8 @@
 package dev.daniel.BooksGalore.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +27,7 @@ public class User implements UserDetails {
     private String lastname;
     private String email;
     private String password;
+    @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<Review> review;
     @ManyToMany(mappedBy = "user", cascade = CascadeType.MERGE)

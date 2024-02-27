@@ -1,5 +1,7 @@
 package dev.daniel.BooksGalore.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,8 +24,10 @@ public class Review {
     private String description;
     private int stars;
     private LocalDate date;
+    @JsonManagedReference
     @ManyToOne
     private Book book;
+    @JsonManagedReference
     @ManyToOne
     private User user;
 }

@@ -1,26 +1,22 @@
 package dev.daniel.BooksGalore.Controller;
 
 import dev.daniel.BooksGalore.Model.Book;
-import dev.daniel.BooksGalore.Model.Review;
-import dev.daniel.BooksGalore.Service.ReviewService;
+import dev.daniel.BooksGalore.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/v1/reviews")
-public class ReviewController {
-    @Autowired
-    private ReviewService serv;
+@RequestMapping("/api/v1/admin")
+public class adminController {
 
+    @Autowired
+    private BookService bookService;
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteReview(@PathVariable int id){
+    public ResponseEntity<?> deleteBook(@PathVariable String id){
         try{
-            serv.deleteReview(id);
+            bookService.deleteBook(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             e.printStackTrace();
@@ -29,10 +25,10 @@ public class ReviewController {
     }
 
     @PostMapping("add")
-    public ResponseEntity<Review> addReview(@RequestBody Review review){
+    public ResponseEntity<Book> addBook(@RequestBody Book book){
         try{
-            Review newReview = serv.addReview(review);
-            return new ResponseEntity<>(newReview,HttpStatus.CREATED);
+            Book addedBook = bookService.addBook(book);
+            return new ResponseEntity<>(addedBook,HttpStatus.CREATED);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -40,14 +36,13 @@ public class ReviewController {
     }
 
     @PutMapping("edit")
-    public ResponseEntity<Review> editReview(@RequestBody Review review){
+    public ResponseEntity<Book> editBook(@RequestBody Book book){
         try{
-            Review updatedReview = serv.updateReview(review);
-            return new ResponseEntity<>(updatedReview,HttpStatus.OK);
+            Book updatedBook = bookService.editBook(book);
+            return new ResponseEntity<>(updatedBook,HttpStatus.OK);
         }catch(Exception e){
             e.printStackTrace();
         }
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
-
 }
