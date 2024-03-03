@@ -27,7 +27,6 @@ public class User implements UserDetails {
     private String lastname;
     private String email;
     private String password;
-    @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<Review> review;
     @ManyToMany(mappedBy = "user", cascade = CascadeType.MERGE)

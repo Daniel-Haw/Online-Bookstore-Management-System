@@ -18,6 +18,10 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository repo;
 
+    public User findUserByEmail(String name) {
+        return repo.findByEmail(name).orElseThrow(() -> new UsernameNotFoundException("User with" + name + "not found"));
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return repo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email" + email + " not found"));

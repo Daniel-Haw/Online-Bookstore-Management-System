@@ -24,10 +24,8 @@ public class Review {
     private String description;
     private int stars;
     private LocalDate date;
-    @JsonManagedReference
     @ManyToOne
     private Book book;
-    @JsonManagedReference
     @ManyToOne
     private User user;
 }
