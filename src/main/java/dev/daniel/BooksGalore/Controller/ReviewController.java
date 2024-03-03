@@ -15,18 +15,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/reviews")
+@RequestMapping("/api/v1/books/{ISBNId}/reviews/")
 public class ReviewController {
     @Autowired
     private ReviewService serv;
     @Autowired
     private UserService userService;
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteReview(@PathVariable int id, Principal principal){
+    @GetMapping("all")
+    public ResponseEntity<List<Review>> getAllReviews(@PathVariable String ISBNId){
+        try{
+            List<Review> reviews = serv.listAll(ISBNId);
+            return new ResponseEntity<>(reviews, HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.BAD_REQUEST);
+    }
+    @DeleteMapping("delete/{reviewId}")
+    public ResponseEntity<?> deleteReview(@PathVariable int reviewId, Principal principal){
         try{
             User authenticatedUser = userService.findUserByEmail(principal.getName());
-            serv.deleteReview(id,authenticatedUser);
+            serv.deleteReview(reviewId,authenticatedUser);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             e.printStackTrace();
@@ -35,10 +45,10 @@ public class ReviewController {
     }
 
     @PostMapping("add")
-    public ResponseEntity<Review> addReview(@RequestBody Review review, Principal principal){
+    public ResponseEntity<Review> addReview(@PathVariable String ISBNId, @RequestBody Review review, Principal principal){
         try{
             User authenticatedUser = userService.findUserByEmail(principal.getName());
-            Review newReview = serv.addReview(review,authenticatedUser);
+            Review newReview = serv.addReview(ISBNId,review,authenticatedUser);
             return new ResponseEntity<>(newReview,HttpStatus.CREATED);
         }catch(Exception e){
             e.printStackTrace();
@@ -46,11 +56,11 @@ public class ReviewController {
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("edit/{id}")
-    public ResponseEntity<Review> editReview(@PathVariable int id, @RequestBody Review review, Principal principal){
+    @PutMapping("edit/{reviewId}")
+    public ResponseEntity<Review> editReview(@PathVariable String ISBNId, @PathVariable int reviewId, @RequestBody Review review, Principal principal){
         try{
             User authenticatedUser = userService.findUserByEmail(principal.getName());
-            Review updatedReview = serv.updateReview(id, review, authenticatedUser);
+            Review updatedReview = serv.updateReview(ISBNId, reviewId, review, authenticatedUser);
             return new ResponseEntity<>(updatedReview,HttpStatus.OK);
         }catch(Exception e){
             e.printStackTrace();

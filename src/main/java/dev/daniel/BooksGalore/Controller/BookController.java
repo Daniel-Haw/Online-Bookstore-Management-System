@@ -44,18 +44,4 @@ public class BookController {
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("{id}/reviews/all")
-    public ResponseEntity<List<Review>> getAllReviews(@PathVariable String id){
-        try{
-            List<Review> reviews = reviewService.listAll(id);
-            return new ResponseEntity<>(reviews, HttpStatus.OK);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.BAD_REQUEST);
-    }
-
-
-
-
 }

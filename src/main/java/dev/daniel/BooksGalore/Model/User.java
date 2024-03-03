@@ -2,6 +2,7 @@ package dev.daniel.BooksGalore.Model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,6 +28,7 @@ public class User implements UserDetails {
     private String lastname;
     private String email;
     private String password;
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<Review> review;
     @ManyToMany(mappedBy = "user", cascade = CascadeType.MERGE)
