@@ -1,5 +1,6 @@
 package dev.daniel.BooksGalore.Registration;
 
+import dev.daniel.BooksGalore.Model.Cart;
 import dev.daniel.BooksGalore.Model.Role;
 import dev.daniel.BooksGalore.Model.User;
 import dev.daniel.BooksGalore.Service.UserService;
@@ -19,6 +20,7 @@ public class RegistrationService {
                     .email(request.getEmail())
                     .password(request.getPassword())
                     .role(Role.USER)
+                    .cart(new Cart())
                     .build()
         );
     }

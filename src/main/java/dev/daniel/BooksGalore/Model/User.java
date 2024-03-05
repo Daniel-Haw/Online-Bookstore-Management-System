@@ -35,6 +35,8 @@ public class User implements UserDetails {
     private List<Book> book;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Cart cart;
 
 
     @Override

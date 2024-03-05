@@ -39,6 +39,7 @@ public class securityConfig{
                     .requestMatchers("/api/v1/registration").permitAll()
                     .requestMatchers("/api/v1/books/**").permitAll()
                     .requestMatchers("/api/v1/books/{id}/review/**").hasAnyAuthority("USER")
+                    .requestMatchers("/api/v1/cart/**").hasAnyAuthority("USER")
                     .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ADMIN")
                     .anyRequest()
                     .authenticated()
