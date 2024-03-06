@@ -10,6 +10,7 @@ import dev.daniel.BooksGalore.Repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,8 +25,10 @@ public class ReviewService {
     }
 
     public Review addReview(String ISBNId, Review review, User authenticatedUser){
+        LocalDate currentDate = LocalDate.now();
         review.setBook(bookRepo.findById(ISBNId).orElseThrow(()->new BookNotFoundException("Book with id " + ISBNId + " does not exist")));
         review.setUser(authenticatedUser);
+        review.setDate(currentDate);
         return repo.save(review);
     }
 
@@ -37,6 +40,8 @@ public class ReviewService {
         review.setBook(bookRepo.findById(ISBNId).orElseThrow(()->new BookNotFoundException("Book with id " + ISBNId + " does not exist")));
         review.setId(id);
         review.setUser(authenticatedUser);
+        LocalDate currentDate = LocalDate.now();
+        review.setDate(currentDate);
         return repo.save(review);
     }
     public void deleteReview(int id, User authenticatedUser){

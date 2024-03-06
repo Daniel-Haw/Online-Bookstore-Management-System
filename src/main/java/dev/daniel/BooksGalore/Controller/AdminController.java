@@ -8,22 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/admin")
-public class adminController {
+@RequestMapping("/api/v1/admin/")
+public class AdminController {
 
     @Autowired
     private BookService bookService;
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable String id){
-        try{
-            bookService.deleteBook(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
     @PostMapping("add")
     public ResponseEntity<Book> addBook(@RequestBody Book book){
         try{
@@ -34,15 +23,24 @@ public class adminController {
         }
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
-
-    @PutMapping("edit")
-    public ResponseEntity<Book> editBook(@RequestBody Book book){
+    @PutMapping("edit/{id}")
+    public ResponseEntity<Book> editBook(@PathVariable String id,@RequestBody Book book){
         try{
-            Book updatedBook = bookService.editBook(book);
+            Book updatedBook = bookService.editBook(id, book);
             return new ResponseEntity<>(updatedBook,HttpStatus.OK);
         }catch(Exception e){
             e.printStackTrace();
         }
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+    }
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> deleteBook(@PathVariable String id){
+        try{
+            bookService.deleteBook(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

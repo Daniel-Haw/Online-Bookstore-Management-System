@@ -18,6 +18,6 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Book> books;
 }

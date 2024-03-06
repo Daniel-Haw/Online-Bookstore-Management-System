@@ -46,12 +46,12 @@ public class CartController {
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("removeBook")
-    public ResponseEntity<Cart> removeItemFromCart(@RequestBody Book book, Principal principal){
+    @PostMapping("removeBook/{bookId}")
+    public ResponseEntity<Cart> removeItemFromCart(@PathVariable String bookId, Principal principal){
         try {
             User user = userService.findUserByEmail(principal.getName());
             Cart userCart = user.getCart();
-            Cart updatedCart = cartService.removeBook(book,userCart);
+            Cart updatedCart = cartService.removeBook(bookId,userCart);
             return new ResponseEntity<>(updatedCart, HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();

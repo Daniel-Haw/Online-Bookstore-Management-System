@@ -25,7 +25,8 @@ public class BookService {
         return repo.save(book);
     }
 
-    public Book editBook(Book updatedBook){
+    public Book editBook(String id,Book updatedBook){
+        updatedBook.setISBNid(id);
         return repo.save(updatedBook);
     }
 
