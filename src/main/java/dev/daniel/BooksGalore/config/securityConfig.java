@@ -1,5 +1,7 @@
 package dev.daniel.BooksGalore.config;
 
+import dev.daniel.BooksGalore.Model.Role;
+import dev.daniel.BooksGalore.Model.User;
 import dev.daniel.BooksGalore.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,14 @@ public class securityConfig{
                 .csrf()
                     .disable()
                 .authorizeHttpRequests()
+                .requestMatchers("/admin.html").hasAnyAuthority("ADMIN")
+                    .requestMatchers("/*.html").permitAll()
+                    .requestMatchers("/js/**").permitAll()
+                    .requestMatchers("/css/**").permitAll()
+                    .requestMatchers("/fonts/**").permitAll()
+                    .requestMatchers("/icon/**").permitAll()
+                    .requestMatchers("/images/**").permitAll()
+                    .requestMatchers("/api/v1/user/**").permitAll()
                     .requestMatchers("/api/v1/registration").permitAll()
                     .requestMatchers("/api/v1/public/books/**").permitAll()
                     .requestMatchers("/api/v1/books/**").hasAnyAuthority("USER")
@@ -43,8 +53,25 @@ public class securityConfig{
                     .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ADMIN")
                     .anyRequest()
                     .authenticated()
-                    .and()
-                .httpBasic();
+                .and()
+                .formLogin()
+                .loginPage("/login.html")
+                .loginProcessingUrl("/loginProcess")
+                .successHandler((request, response, authentication) -> {
+                    if (authentication.getPrincipal() instanceof User userDetails) {
+                        if (userDetails.getRole().equals(Role.ADMIN)) {
+                            response.sendRedirect("/admin.html"); // Redirect admin to admin dashboard
+                            return;
+                        }
+                    }
+                    response.sendRedirect("/index.html"); // Redirect regular user to index page
+                })
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logoutProcess")
+                .deleteCookies("JSESSIONID");
+
         return http.build();
     }
 

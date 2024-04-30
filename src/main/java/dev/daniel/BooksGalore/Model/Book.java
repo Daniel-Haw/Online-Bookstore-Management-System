@@ -25,7 +25,9 @@ public class Book {
     private String ISBNid;
     private String title;
     private String genre;
+    private String author;
     private String description;
+    private String imageURL;
     private double price;
     @JsonIgnore
     @OneToMany(mappedBy = "book", cascade = CascadeType.MERGE)

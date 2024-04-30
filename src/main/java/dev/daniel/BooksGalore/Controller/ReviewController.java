@@ -22,16 +22,6 @@ public class ReviewController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("all")
-    public ResponseEntity<List<Review>> getAllReviews(@PathVariable String ISBNId){
-        try{
-            List<Review> reviews = serv.listAll(ISBNId);
-            return new ResponseEntity<>(reviews, HttpStatus.OK);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.BAD_REQUEST);
-    }
     @DeleteMapping("delete/{reviewId}")
     public ResponseEntity<?> deleteReview(@PathVariable int reviewId, Principal principal){
         try{

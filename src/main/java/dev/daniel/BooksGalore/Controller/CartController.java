@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/cart/")
@@ -21,12 +22,12 @@ public class CartController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("get")
-    public ResponseEntity<Cart> getCart(Principal principal){
+    @GetMapping("getBooks")
+    public ResponseEntity<List<Book>> getBooks(Principal principal){
         try {
             User user = userService.findUserByEmail(principal.getName());
-            Cart userCart = user.getCart();
-            return new ResponseEntity<>(userCart, HttpStatus.OK);
+            List<Book> books = user.getCart().getBooks();
+            return new ResponseEntity<>(books, HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -53,6 +54,19 @@ public class CartController {
             Cart userCart = user.getCart();
             Cart updatedCart = cartService.removeBook(bookId,userCart);
             return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("getTotalPrice")
+    public ResponseEntity<Double> getTotalPrice(Principal principal){
+        try{
+            User user = userService.findUserByEmail(principal.getName());
+            Cart userCart = user.getCart();
+            double totalPrice = cartService.calculateTotalPrice(userCart);
+            return new ResponseEntity<>(totalPrice, HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
         }

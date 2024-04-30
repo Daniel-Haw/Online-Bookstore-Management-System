@@ -28,4 +28,10 @@ public class CartService {
         userBooks.remove(book);
         return cartRepository.save(userCart);
     }
+
+    public double calculateTotalPrice(Cart userCart) {
+        List<Book> userBooks = userCart.getBooks();
+        if(userBooks.isEmpty()) return 0.00;
+        return userBooks.stream().mapToDouble(Book::getPrice).sum();
+    }
 }

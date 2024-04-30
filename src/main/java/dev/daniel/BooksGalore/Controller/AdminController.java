@@ -23,16 +23,6 @@ public class AdminController {
         }
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
-    @PutMapping("edit/{id}")
-    public ResponseEntity<Book> editBook(@PathVariable String id,@RequestBody Book book){
-        try{
-            Book updatedBook = bookService.editBook(id, book);
-            return new ResponseEntity<>(updatedBook,HttpStatus.OK);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-    }
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable String id){
         try{
